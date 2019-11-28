@@ -1,0 +1,8 @@
+[submodule "meta-voltumna"]
+	path = meta-voltumna
+	url = https://github.com/voltumna-linux/meta-voltumna.git
+	branch = dunfell
+[submodule "meta-elettra"]
+	path = meta-elettra
+	url = https://github.com/voltumna-linux/meta-elettra.git
+	branch = dunfell

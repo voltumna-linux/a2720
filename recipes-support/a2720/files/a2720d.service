@@ -1,0 +1,12 @@
+[Unit]
+Description=A2720 TCP/IP daemon
+Requires=network-online.target local-fs.target
+ConditionPathExists=/etc/a2720.cfg
+After=a2720-fw.service
+
+[Service]
+Type=forking
+ExecStart=/usr/sbin/a2720d
+
+[Install]
+WantedBy=multi-user.target

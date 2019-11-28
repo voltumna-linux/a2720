@@ -1,0 +1,5 @@
+build
+meta-*
+
+!meta-voltumna
+!meta-elettra

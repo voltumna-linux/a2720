@@ -1,0 +1,12 @@
+BASEDIR="${PWD}/`dirname ${BASH_SOURCE}`"
+
+export BITBAKEDIR="${BASEDIR}/meta-voltumna/bitbake"
+export TEMPLATECONF="${BASEDIR}/conf"
+
+export DISTRO="voltumna"
+export MACHINE
+export SDKMACHINE
+export IMAGE_VERSION="-`git -C ${BASEDIR} describe --always --tags --dirty`"
+export BB_ENV_EXTRAWHITE="$BB_ENV_EXTRAWHITE IMAGE_VERSION DL_DIR SSTATE_DIR"
+
+source "${BASEDIR}/meta-voltumna/openembedded-core/oe-init-build-env" "$@"

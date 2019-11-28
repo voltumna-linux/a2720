@@ -1,0 +1,15 @@
+[Unit]
+Description=Load A2720 PRU firmware
+Requires=local-fs.target systemd-modules-load.service
+ConditionPathExists=/etc/a2720.cfg
+After=systemd-modules-load.service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c 'a2720ctl load /usr/lib/firmware/text.bin /usr/lib/firmware/text1.bin'
+ExecStart=/bin/sh -c 'a2720ctl file'
+ExecStart=/bin/sh -c 'a2720ctl start'
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target

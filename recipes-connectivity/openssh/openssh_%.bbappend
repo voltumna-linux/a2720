@@ -1,0 +1,8 @@
+FILES_${PN} = "${ROOT_HOME}/.ssh"
+
+do_install_append() {
+	install -d ${D}${ROOT_HOME}/.ssh
+	cat <<-__EOF__ >> ${D}${ROOT_HOME}/.ssh/authorized_keys
+	ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCwm5ssxTbaWeuRM/8hEmZiyXN/cxGct6XatnuSaceLWse52xQOsWPY8kmPpXcVQADMzt4swinmwvhleZNdH1OyaSgGgsyDpvbkS4iIE3ggCZjqE9chIXdHkvgsKM8xYyuAhWq3MJIZywXYzh1+qBFFKf3a3/mypxwURVSoEQ+mR/2WNMy0xPo1Mp6EsAM7BT8h2HziFUSvHA1sTDTmr4ikoM9rcFdGv642rjBKsAEfUBAl/qAYES07rOZeKGfVZVUGJdF3HMwu8KLzQWw/Y1ghjymNaVZZRzzkRVpRCZ/pD4xBEG167nC/HNtkFpiKxk/Fk0nzjscMPiesDCdxgHwC+sWqQfamvj8WRhDSsQXhZM3jfBsTqIGl5nbkml1asBYAV+3MiiPtarnInIidGOmhFhnKJdt+P8RvuVT6CgsUtYeIu8rzQI1peZaqZ3+l+RVuTZvQZRcrvOah947wFkgVqGDrjdH1upZI9EWR60rSutwbvMWIieCHg9xfaU3fgSqIeyVaxkE0kinUxvukvdori4uv1jViaGLcjEEkp9GKLF8SSljVhcevGhqBzvLy9rF/pStapBkZMlpkSjjUXg1FhMG6xQgp5BDSoW5IPqFYWQxXHi1Hg0eKHY+8QdI4H4t50D4GrhzQSYVo8Warcn13f6PFuC8zXZ0XleWaNeHi/w==
+	__EOF__
+}
