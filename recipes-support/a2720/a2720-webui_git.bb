@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e"
 DEPENDS =+ "nodejs-native"
 RDEPENDS_${PN} += "a2720-utils nginx"
 
-SRCREV = "1fc4d04f94fe2caf2da8219c92a2ee9346cb59ed"
+SRCREV = "ea9333fda1d08ec5b45d7100b4ae379ff08f66c6"
 SRC_URI = "git://gitlab.elettra.eu/a2720/a2720-webui.git;protocol=https \
 	file://a2720.service \
 	file://a2720 \
@@ -30,8 +30,11 @@ do_install() {
 	install -d ${D}${WWWDIR}
 	cp -r ${S}/dist/* ${D}${WWWDIR}
 
-	# TODO Compress (at the moment not compatible wit React router)
-	# find ${D}${WWWDIR} -type f \( -iname "*.txt" -or -iname "*.css" -or -iname "*.js" -or -iname "*.html" \) -exec gzip {} \;
+	# Pre-compress files
+	find ${D}${WWWDIR} -type f \( -iname "*.css" \
+		-or -iname "*.js" -or -iname "*.html" \
+		-or -iname "*.jpg" \) -exec gzip -9 {} \;
+	gunzip ${D}${WWWDIR}/index.html.gz
 	
 	# Make authentication works
 	install -d ${D}${WWWDIR}/auth

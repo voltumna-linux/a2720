@@ -80,7 +80,7 @@ class Server(BaseHTTPRequestHandler):
         switcher = {
             "/api/a2720/sn": [set_sn, nothing],
             "/api/a2720/state": [set_state, nothing],
-            "/api/a2720/current": [set_current, nothing],
+            "/api/a2720/setpoint": [set_current, nothing],
         }
         action = switcher.get(str(self.path), [fail, nothing])
         complproc = action[0](self)
@@ -105,25 +105,26 @@ class Poller:
           thread.start()
      def run(self):
          while True:
-             complproc = subprocess.run(["/usr/bin/a2720ctl", "status", "--iout", "--vout", "--iostatus"],
+             complproc = subprocess.run(["/usr/bin/a2720ctl", "status", "--iset", "--iout", "--vout", "--iostatus"],
                      capture_output=True, text=True)
              if complproc.returncode == 0:
+                 remains = ''
                  for line in complproc.stdout.splitlines():
-                     if line.startswith("Output current"):
-                         data = '{"y":' + line.split('\t')[3] + ',"x":' + str(int(time.time() * 1000)) + '}';
-                         requests.post('http://127.0.0.1/api/a2720/publish/current',
-                                 verify=False, data=data)
+                     if line.startswith("Output current:"):
+                         data = '{"y":' + line.split('\t')[3] + ',"x":' + str(int(time.time() * 1000)) + '}'
+                         requests.post('http://127.0.0.1/api/a2720/publish/current', verify=False, data=data)
                          continue
-                     if line.startswith("Output voltage"):
-                         data = '{"y":' + line.split('\t')[3] + ',"x":' + str(int(time.time() * 1000)) + '}';
-                         requests.post('http://127.0.0.1/api/a2720/publish/voltage',
-                                 verify=False, data=data)
+                     if line.startswith("Output voltage:"):
+                         data = '{"y":' + line.split('\t')[3] + ',"x":' + str(int(time.time() * 1000)) + '}'
+                         requests.post('http://127.0.0.1/api/a2720/publish/voltage', verify=False, data=data)
                          continue
-                     if line.startswith("Gate"):
-                         data = '{"state":"' + line.split(' ')[1] + '"}';
-                         requests.post('http://127.0.0.1/api/a2720/publish/state',
-                                 verify=False, data=data)
+                     if line.startswith("Output current setpoint:"):
+                         data = '{"y":' + line.split('\t')[1] + ',"x":' + str(int(time.time() * 1000)) + '}'
+                         requests.post('http://127.0.0.1/api/a2720/publish/setpoint', verify=False, data=data)
                          continue
+                     remains += " " + line
+                 data = '{"state":"' + remains + '"}'
+                 requests.post('http://127.0.0.1/api/a2720/publish/state', verify=False, data=data)
              time.sleep(self.interval)
 
 def run(server_class=HTTPServer, handler_class=Server, port=9300):

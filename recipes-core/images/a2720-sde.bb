@@ -1,9 +1,7 @@
 require recipes-core/images/voltumna-sde.inc
-# require recipes-devtools/cgtpru/include/cgtpru_2.3.2.inc
 require include/a2720.inc
 require include/a2720-sxe.inc
 
-# IMAGE_PREPROCESS_COMMAND += " install_cgtpru_into_sde;"
 # IMAGE_INSTALL_append += "ti-cgt-pru"
 
 append_to_osrelease() {
