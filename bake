@@ -1,5 +1,4 @@
 MACHINE="beaglebone"
-# nice bitbake -k a2720-sre a2720-sde || return
 nice bitbake -k a2720-sde || return
 
 MACHINE="qemu-cortexa8t2hf-neon"
