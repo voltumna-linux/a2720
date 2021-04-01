@@ -7,7 +7,7 @@ inherit module
 DEPENDS += "a2720-fw"
 RDEPENDS_${PN} += "a2720-fw"
 
-SRCREV = "43f8ee2b8b62b817b40c604dd3491afdd61735ed"
+SRCREV = "da035d2aba0e0739e6bd91a16844427a12fca276"
 SRC_URI = "git://gitlab.elettra.eu/a2720/a2720-mod.git;protocol=https;"
 
 S = "${WORKDIR}/git"

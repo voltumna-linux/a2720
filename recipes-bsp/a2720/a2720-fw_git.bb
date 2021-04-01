@@ -6,7 +6,7 @@ DEPENDS = "ti-cgt-pru-native"
 
 require recipes-ti/includes/ti-paths.inc
 
-SRCREV = "d3ccab6789908be9ca9284a7d24e90fb8150062c"
+SRCREV = "6fc48791ec1f3f24bbc716b3fec73aa25b42936a"
 SRC_URI = "git://gitlab.elettra.eu/a2720/a2720-fw.git;protocol=https \
 	file://a2720-fw.service \
 	"
