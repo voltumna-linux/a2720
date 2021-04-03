@@ -17,7 +17,8 @@ S = "${WORKDIR}/git"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 EXTRA_OEMAKE += " \
-	CLPRU="${TI_CGT_PRU_INSTALL_DIR}/bin/clpru -i ${TI_CGT_PRU_INSTALL_DIR}/include" \
+	CLPRU="${TI_CGT_PRU_INSTALL_DIR}/bin/clpru -i${STAGING_DIR_NATIVE}${root_prefix}/include/${TI_PDK_LIMIT_SOCS} -i ${TI_CGT_PRU_INSTALL_DIR}/include" \
+	CLPRUFLAGS="--section_sizes --endian=little --silicon_version=3 -k --symdebug:none --hardware_mac=on" \
 	CLPRULDFLAGS="-l ${TI_CGT_PRU_INSTALL_DIR}/lib/libc.a" \
 	HEXPRU="${TI_CGT_PRU_INSTALL_DIR}/bin/hexpru" \
 	"
