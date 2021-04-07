@@ -6,8 +6,8 @@ DEPENDS = "ti-cgt-pru-native"
 
 require recipes-ti/includes/ti-paths.inc
 
-SRCREV = "6fc48791ec1f3f24bbc716b3fec73aa25b42936a"
-SRC_URI = "git://gitlab.elettra.eu/a2720/a2720-fw.git;protocol=https \
+SRCREV = "35a9ba7af9744b3d00f1ad8dff45fcc759d05ee7"
+SRC_URI = "git://gitlab.elettra.eu/a2720/a2720-fw.git;protocol=https;branch=optimize-firmware \
 	file://a2720-fw.service \
 	"
 
@@ -29,12 +29,8 @@ FILES_${PN}-dev = "${includedir}"
 SYSTEMD_SERVICE_${PN} = "a2720-fw.service"
 
 do_install() {
-	install -d ${D}${includedir}
-	install -m 0644 *.h ${D}${includedir}
+	oe_runmake DESTDIR=${D} install
 
-	install -d ${D}${base_libdir}/firmware
-	install -m 0644 text*.bin ${D}${base_libdir}/firmware
-	
 	install -d ${D}${systemd_unitdir}/system
 	install -m 0644 ${WORKDIR}/a2720-fw.service ${D}${systemd_unitdir}/system
 }
