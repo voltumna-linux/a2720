@@ -2,12 +2,12 @@ SUMMARY = "PRUSS Firmware for A2720"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e"
 
-DEPENDS = "ti-cgt-pru-native"
+DEPENDS = "ti-cgt-pru-native pru-icss"
 
 require recipes-ti/includes/ti-paths.inc
 
-SRCREV = "35a9ba7af9744b3d00f1ad8dff45fcc759d05ee7"
-SRC_URI = "git://gitlab.elettra.eu/a2720/a2720-fw.git;protocol=https;branch=optimize-firmware \
+SRCREV = "56b4802593408e89049a91a6f40f678199a65b07"
+SRC_URI = "git://gitlab.elettra.eu/a2720/a2720-fw.git;protocol=https;branch=master \
 	file://a2720-fw.service \
 	"
 

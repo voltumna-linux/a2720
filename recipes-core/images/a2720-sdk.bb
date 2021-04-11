@@ -1,7 +1,9 @@
 require recipes-core/images/voltumna-sdk.bb
+require recipes-devtools/ti-cgt-pru/include/cgtpru_2.3.2.inc
 require include/a2720.inc
 
 TOOLCHAIN_HOST_TASK_append += "nativesdk-ti-cgt-pru"
+POPULATE_SDK_POST_TARGET_COMMAND += " install_cgtpru_into_sdk;"
 
 append_to_osrelease() {
 	cat <<-__EOF__ >> ${IMAGE_ROOTFS}/etc/os-release

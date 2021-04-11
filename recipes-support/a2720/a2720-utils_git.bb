@@ -5,8 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e"
 DEPENDS += "a2720-fw gsl"
 RDEPENDS_${PN} += "a2720-mod"
 
-SRCREV = "3a4fc1f17fbac28748b944f2f56639d07c23f975"
-SRC_URI = "git://gitlab.elettra.eu/a2720/a2720-utils.git;protocol=https;branch=optimize-firmware"
+SRCREV = "e31f956d22e2528a645c08f5a656fb7918d3b91f"
+SRC_URI = "git://gitlab.elettra.eu/a2720/a2720-utils.git;protocol=https;branch=master"
 
 S = "${WORKDIR}/git"
 
