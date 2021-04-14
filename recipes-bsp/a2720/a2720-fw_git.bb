@@ -6,7 +6,7 @@ DEPENDS = "ti-cgt-pru-native pru-icss"
 
 require recipes-ti/includes/ti-paths.inc
 
-SRCREV = "56b4802593408e89049a91a6f40f678199a65b07"
+SRCREV = "90bb5ab334f2f85386fe8b0d2902af50cf9412cd"
 SRC_URI = "git://gitlab.elettra.eu/a2720/a2720-fw.git;protocol=https;branch=master \
 	file://a2720-fw.service \
 	"
@@ -24,7 +24,6 @@ EXTRA_OEMAKE += " \
 	"
 
 FILES_${PN} = "${base_libdir}"
-FILES_${PN}-dev = "${includedir}"
 
 SYSTEMD_SERVICE_${PN} = "a2720-fw.service"
 

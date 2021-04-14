@@ -2,7 +2,7 @@ SUMMARY = "TCP/IP daemon for A2720"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e"
 
-DEPENDS += "a2720-fw"
+DEPENDS += "a2720-mod"
 RDEPENDS_${PN} += "a2720-utils"
 
 SRCREV = "d9c2408213e6fd9f994e95fd3e9255e345799bd3"
