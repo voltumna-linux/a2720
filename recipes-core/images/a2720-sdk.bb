@@ -2,6 +2,7 @@ require recipes-core/images/voltumna-sdk.bb
 require recipes-devtools/ti-cgt-pru/include/cgtpru_2.3.2.inc
 require include/a2720.inc
 
+IMAGE_INSTALL_append += "pru-icss-staticdev"
 TOOLCHAIN_HOST_TASK_append += "nativesdk-ti-cgt-pru"
 POPULATE_SDK_POST_TARGET_COMMAND += " install_cgtpru_into_sdk;"
 
