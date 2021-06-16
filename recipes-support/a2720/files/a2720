@@ -20,6 +20,7 @@ def fail(self):
     return subprocess.CompletedProcess(args='', returncode=1)
 
 def reboot(self):
+    os.system('sync;sync;sync')
     os.system('reboot')
 
 def set_sn(self):
@@ -78,7 +79,7 @@ class Server(BaseHTTPRequestHandler):
                 str(self.path), str(self.headers))
 
         switcher = {
-            "/api/a2720/sn": [set_sn, nothing],
+            "/api/a2720/sn": [set_sn, reboot],
             "/api/a2720/state": [set_state, nothing],
             "/api/a2720/setpoint": [set_current, nothing],
         }
@@ -141,7 +142,7 @@ def run(server_class=HTTPServer, handler_class=Server, port=9300):
     logging.info('Stopping httpd...\n')
 
 if __name__ == '__main__':
-    poller = Poller()
+#    poller = Poller()
     if len(argv) == 2:
         run(port=int(argv[1]))
     else:

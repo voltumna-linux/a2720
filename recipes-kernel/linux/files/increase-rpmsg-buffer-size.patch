@@ -1,0 +1,28 @@
+diff --git a/drivers/rpmsg/rpmsg_pru.c b/drivers/rpmsg/rpmsg_pru.c
+index 817827d76c27..024d1867febe 100644
+--- a/drivers/rpmsg/rpmsg_pru.c
++++ b/drivers/rpmsg/rpmsg_pru.c
+@@ -21,7 +21,7 @@
+ 
+ #define PRU_MAX_DEVICES				(16)
+ /* Matches the RPMSG_BUF_SIZE definition in virtio_rpmsg_bus.c */
+-#define FIFO_MSG_SIZE				(512)
++#define FIFO_MSG_SIZE				(2048)
+ #define MAX_FIFO_MSG				(32)
+ 
+ /**
+diff --git a/drivers/rpmsg/virtio_rpmsg_bus.c b/drivers/rpmsg/virtio_rpmsg_bus.c
+index 25cdecc1edf8..97c6b2d655b2 100644
+--- a/drivers/rpmsg/virtio_rpmsg_bus.c
++++ b/drivers/rpmsg/virtio_rpmsg_bus.c
+@@ -168,8 +168,8 @@ struct virtio_rpmsg_channel {
+  * can change this without changing anything in the firmware of the remote
+  * processor.
+  */
+-#define MAX_RPMSG_NUM_BUFS	(512)
+-#define MAX_RPMSG_BUF_SIZE	(512)
++#define MAX_RPMSG_NUM_BUFS	(2048)
++#define MAX_RPMSG_BUF_SIZE	(2048)
+ 
+ /*
+  * Local addresses are dynamically allocated on-demand.

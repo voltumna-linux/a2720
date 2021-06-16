@@ -242,3 +242,5 @@ export PERL_HASH_SEED = "0"
 export TZ = 'UTC'
 export SOURCE_DATE_EPOCH ??= "1520598896"
 REPRODUCIBLE_TIMESTAMP_ROOTFS ??= "1520598896"
+
+PREFERRED_PROVIDER_virtual/kernel = "linux-ti-staging-rt"

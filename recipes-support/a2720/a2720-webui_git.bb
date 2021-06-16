@@ -1,12 +1,12 @@
 SUMMARY = "A2720 Web UI"
 LICENSE = "GPLv2"
-LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=f6412ce0400baf1d8177bd65d0f33550"
 
 DEPENDS =+ "nodejs-native"
 RDEPENDS_${PN} += "a2720-utils nginx"
 
-SRCREV = "ea9333fda1d08ec5b45d7100b4ae379ff08f66c6"
-SRC_URI = "git://gitlab.elettra.eu/a2720/a2720-webui.git;protocol=https \
+SRCREV = "6c4c4e327496189bbe10e58bd400be16990fdfcc"
+SRC_URI = "git://gitlab.elettra.eu/a2720/a2720-webui.git;protocol=https;branch=remoteproc \
 	file://a2720.service \
 	file://a2720 \
 	file://a2720.conf \
@@ -29,6 +29,11 @@ DIRFILES = "1"
 do_install() {
 	install -d ${D}${WWWDIR}
 	cp -r ${S}/dist/* ${D}${WWWDIR}
+
+	rm -fr ${D}${WWWDIR}/images
+
+	install -d ${D}${WWWDIR}/login/assets/fonts/
+	lnr ${D}${WWWDIR}/fonts ${D}${WWWDIR}/login/assets/fonts/overpass-webfont 
 
 	# Pre-compress files
 	find ${D}${WWWDIR} -type f \( -iname "*.css" \
