@@ -1,0 +1,13 @@
+diff --git a/include/pru_rpmsg.h b/include/pru_rpmsg.h
+index 5d6d65e..23d0f81 100644
+--- a/include/pru_rpmsg.h
++++ b/include/pru_rpmsg.h
+@@ -83,7 +83,7 @@
+ /* The maximum size of the channel name and description */
+ #define RPMSG_NAME_SIZE 			32
+ /* The maximum size of the buffer (including the header) */
+-#define RPMSG_BUF_SIZE				512
++#define RPMSG_BUF_SIZE				4096
+ /* The size of the buffer header */
+ #define RPMSG_HEADER_SIZE			16
+ /* The maximum size of the buffer message */

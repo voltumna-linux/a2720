@@ -1,0 +1,7 @@
+*) Aggiornare a pru-icss-6.x.x (aggiungendo la parte dei device-tree relativa alle IRQs dei remoteproc) valutando poi se sia possibile avere piu' di una queue per PRU e se pru_rpmsg_send() ritorni errore quando il buffer e' pieno
+
+*) Far generare le chiavi SSL (sessiongenkeys) per poi quindi abilitare HTTPS
+
+*) Riuscire ad integrare nativesdk-nodejs-npm/npm/yarn (per compilare a2720-webui nell'sdk)
+
+*) Il compilatore clpru non produce lo stesso binario su SDE e SDK (Linux e Windows)

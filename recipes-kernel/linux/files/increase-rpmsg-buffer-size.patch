@@ -1,0 +1,46 @@
+diff --git a/drivers/rpmsg/rpmsg_pru.c b/drivers/rpmsg/rpmsg_pru.c
+index 817827d76c27..10a34cbc7ecd 100644
+--- a/drivers/rpmsg/rpmsg_pru.c
++++ b/drivers/rpmsg/rpmsg_pru.c
+@@ -22,7 +22,7 @@
+ #define PRU_MAX_DEVICES				(16)
+ /* Matches the RPMSG_BUF_SIZE definition in virtio_rpmsg_bus.c */
+ #define FIFO_MSG_SIZE				(512)
+-#define MAX_FIFO_MSG				(32)
++#define MAX_FIFO_MSG				(128)
+ 
+ /**
+  * struct rpmsg_pru_dev - Structure that contains the per-device data
+@@ -181,16 +181,12 @@ static int rpmsg_pru_cb(struct rpmsg_device *rpdev, void *data, int len,
+ 
+ 	prudev = dev_get_drvdata(&rpdev->dev);
+ 
+-	if (kfifo_avail(&prudev->msg_fifo) < len) {
+-		dev_err(&rpdev->dev, "Not enough space on the FIFO\n");
++	if (kfifo_avail(&prudev->msg_fifo) < len ||
++			(prudev->msg_idx_wr + 1) % MAX_FIFO_MSG == prudev->msg_idx_rd) {
++		dev_err(&rpdev->dev, "Not enough space on the FIFO and/or Message length table is full\n");
+ 		return -ENOSPC;
+ 	}
+ 
+-	if ((prudev->msg_idx_wr + 1) % MAX_FIFO_MSG ==
+-		prudev->msg_idx_rd) {
+-		dev_err(&rpdev->dev, "Message length table is full\n");
+-		return -ENOSPC;
+-	}
+ 
+ 	length = kfifo_in(&prudev->msg_fifo, data, len);
+ 	prudev->msg_len[prudev->msg_idx_wr] = length;
+diff --git a/drivers/rpmsg/virtio_rpmsg_bus.c b/drivers/rpmsg/virtio_rpmsg_bus.c
+index 25cdecc1edf8..32ba781094c8 100644
+--- a/drivers/rpmsg/virtio_rpmsg_bus.c
++++ b/drivers/rpmsg/virtio_rpmsg_bus.c
+@@ -168,7 +168,7 @@ struct virtio_rpmsg_channel {
+  * can change this without changing anything in the firmware of the remote
+  * processor.
+  */
+-#define MAX_RPMSG_NUM_BUFS	(512)
++#define MAX_RPMSG_NUM_BUFS	(2048)
+ #define MAX_RPMSG_BUF_SIZE	(512)
+ 
+ /*

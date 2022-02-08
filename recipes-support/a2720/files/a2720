@@ -1,0 +1,189 @@
+#!/usr/bin/env python3
+
+from http.server import BaseHTTPRequestHandler, HTTPServer
+import logging
+import os
+import shutil
+import subprocess
+import requests
+import threading
+import time
+import urllib3
+from pathlib import Path
+from sys import argv
+
+urllib3.disable_warnings()
+
+def nothing(self):
+    return subprocess.CompletedProcess(args='', returncode=0)
+
+def fail(self):
+    return subprocess.CompletedProcess(args='', returncode=1)
+
+def reboot(self):
+    os.system('sync;sync;sync')
+    os.system('reboot')
+
+def get_logs(self):
+    return subprocess.run(["/usr/bin/journalctl", "-a", "--no-pager"],
+            capture_output=True)
+
+def set_sn(self):
+    content_length = int(self.headers['Content-Length'])
+    post_data = self.rfile.read(content_length)
+    sn = str(post_data.decode('utf-8'))
+    shutil.copyfile('/usr/share/a2720/a2720-' + sn.zfill(3) + '.cfg', '/etc/a2720.cfg')
+    requests.post('http://127.0.0.1/api/a2720/publish/sn', verify=False, data=sn)
+    return subprocess.CompletedProcess(args='', returncode=0)
+
+def set_state(self):
+    content_length = int(self.headers['Content-Length'])
+    post_data = self.rfile.read(content_length)
+    state = str(post_data.decode('utf-8'))
+    return subprocess.run(["/usr/bin/a2720ctl", "config", "--" + state])
+
+def set_current(self):
+    content_length = int(self.headers['Content-Length'])
+    post_data = self.rfile.read(content_length)
+    current = str(post_data.decode('utf-8'))
+    return subprocess.run(["/usr/bin/a2720ctl", "config", "--iset=" + current])
+
+def set_kp(self):
+    content_length = int(self.headers['Content-Length'])
+    post_data = self.rfile.read(content_length)
+    kp = str(post_data.decode('utf-8'))
+    return subprocess.run(["/usr/bin/a2720ctl", "config", "--kp=" + kp])
+
+def set_ki(self):
+    content_length = int(self.headers['Content-Length'])
+    post_data = self.rfile.read(content_length)
+    ki = str(post_data.decode('utf-8'))
+    return subprocess.run(["/usr/bin/a2720ctl", "config", "--ki=" + ki])
+
+def set_kd(self):
+    content_length = int(self.headers['Content-Length'])
+    post_data = self.rfile.read(content_length)
+    kd = str(post_data.decode('utf-8'))
+    return subprocess.run(["/usr/bin/a2720ctl", "config", "--kd=" + kd])
+
+def set_slewrate(self):
+    content_length = int(self.headers['Content-Length'])
+    post_data = self.rfile.read(content_length)
+    slewrate = str(post_data.decode('utf-8'))
+    return subprocess.run(["/usr/bin/a2720ctl", "config", "--slewrate=" + slewrate])
+
+def set_pids(self):
+    content_length = int(self.headers['Content-Length'])
+    post_data = self.rfile.read(content_length)
+    pids = str(post_data.decode('utf-8'))
+    values = pids.split()
+    return subprocess.run(["/usr/bin/sed", "-i",
+        "-e", "s/kp.*=.*/kp = " + values[0] + "/",
+        "-e", "s/ki.*=.*/ki = " + values[1] + "/",
+        "-e", "s/kd.*=.*/kd = " + values[2] + "/", 
+        "-e", "s/slewrate.*=.*/slewrate = " + values[3] + "/", 
+        "/etc/a2720.cfg"])
+
+class Server(BaseHTTPRequestHandler):
+    protocol_version = 'HTTP/1.1'
+    def do_GET(self):
+        logging.info("GET request,\nPath: %s\nHeaders:\n%s\n",
+                str(self.path), str(self.headers))
+
+        switcher = {
+            "/api/a2720/logs": [get_logs, nothing],
+        }
+        action = switcher.get(str(self.path), [fail, nothing])
+        complproc = action[0](self)
+
+        if complproc.returncode != 0:
+            self.send_response(500)
+            self.send_header("Content-Length", 0)
+            self.end_headers()
+        else:
+            self.send_response(200)
+            self.send_header("Content-Length", len(complproc.stdout))
+            self.end_headers()
+            self.wfile.write(complproc.stdout)
+            
+            # Execute post function
+            action[1](self)
+
+    def do_POST(self):
+        logging.info("POST request,\nPath: %s\nHeaders:\n%s\n",
+                str(self.path), str(self.headers))
+
+        switcher = {
+            "/api/a2720/sn": [set_sn, reboot],
+            "/api/a2720/state": [set_state, nothing],
+            "/api/a2720/setpoint": [set_current, nothing],
+            "/api/a2720/kp": [set_kp, nothing],
+            "/api/a2720/ki": [set_ki, nothing],
+            "/api/a2720/kd": [set_kd, nothing],
+            "/api/a2720/slewrate": [set_slewrate, nothing],
+            "/api/a2720/pids": [set_pids, nothing],
+        }
+        action = switcher.get(str(self.path), [fail, nothing])
+        complproc = action[0](self)
+
+        if complproc.returncode != 0:
+            self.send_response(500)
+            self.send_header("Content-Length", 0)
+            self.end_headers()
+        else:
+            self.send_response(200)
+            self.send_header("Content-Length", 0)
+            self.end_headers()
+
+            # Execute post function
+            action[1](self)
+
+#class Poller:
+#     def __init__(self, interval=1):
+#          self.interval = interval
+#          thread = threading.Thread(target=self.run, args=())
+#          thread.daemon = True
+#          thread.start()
+#     def run(self):
+#         while True:
+#             complproc = subprocess.run(["/usr/bin/a2720ctl", "status", "--iset", "--iout", "--vout", "--iostatus"],
+#                     capture_output=True, text=True)
+#             if complproc.returncode == 0:
+#                 remains = ''
+#                 for line in complproc.stdout.splitlines():
+#                     if line.startswith("Output current:"):
+#                         data = '{"y":' + line.split('\t')[3] + ',"x":' + str(int(time.time() * 1000)) + '}'
+#                         requests.post('http://127.0.0.1/api/a2720/publish/current', verify=False, data=data)
+#                         continue
+#                     if line.startswith("Output voltage:"):
+#                         data = '{"y":' + line.split('\t')[3] + ',"x":' + str(int(time.time() * 1000)) + '}'
+#                         requests.post('http://127.0.0.1/api/a2720/publish/voltage', verify=False, data=data)
+#                         continue
+#                     if line.startswith("Output current setpoint:"):
+#                         data = '{"y":' + line.split('\t')[1] + ',"x":' + str(int(time.time() * 1000)) + '}'
+#                         requests.post('http://127.0.0.1/api/a2720/publish/setpoint', verify=False, data=data)
+#                         continue
+#                     remains += " " + line
+#                 data = '{"state":"' + remains + '"}'
+#                 requests.post('http://127.0.0.1/api/a2720/publish/state', verify=False, data=data)
+#             time.sleep(self.interval)
+
+def run(server_class=HTTPServer, handler_class=Server, port=9300):
+    logging.basicConfig(level=logging.INFO)
+    
+    logging.info('Starting httpd...\n')
+    server_address = ('127.0.0.1', port)
+    httpd = server_class(server_address, handler_class)
+    try:
+        httpd.serve_forever()
+    except KeyboardInterrupt:
+        pass
+    httpd.server_close()
+    logging.info('Stopping httpd...\n')
+
+if __name__ == '__main__':
+#    poller = Poller()
+    if len(argv) == 2:
+        run(port=int(argv[1]))
+    else:
+        run()

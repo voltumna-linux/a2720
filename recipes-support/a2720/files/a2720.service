@@ -1,0 +1,17 @@
+[Unit]
+Description=A2720 Service
+Requires=network-online.target local-fs.target nginx.service a2720-fw.service
+After=network-online.target nginx.service a2720-fw.service
+Conflicts=shutdown.target
+ConditionKernelCommandLine=!rootfstype=nfs
+JoinsNamespaceOf=nginx.service
+Wants=nginx.service
+PartOf=nginx.service
+
+[Service]
+ExecStart=/usr/sbin/a2720
+ExecStartPost=/usr/sbin/a2720.sh
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

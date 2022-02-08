@@ -1,0 +1,8 @@
+FILES_${PN} = "${ROOT_HOME}/.ssh"
+
+do_install_append() {
+	install -d ${D}${ROOT_HOME}/.ssh
+	cat <<-__EOF__ >> ${D}${ROOT_HOME}/.ssh/authorized_keys
+	ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCvz9qgA8IJyfZ02mnZiMIVOQpPBWP3J4cmqmMmxZRYcR3eHyUVjjorEMumJ3xc4HduwUe9A3rVvwC34xZKDmOjr/XCDGGsR0Ii9v++xs5EItdooofh8bCLc/BZi/6v6oZwzuNqnbGNJl69Yj8HC1WCmfjRu3NRjEKBGDIV5LT3GkW4sJiZEh6b0caSEBsXVNLd9kH3i6NdkGwr1GNO0C0hL+LCQc6386SRNXW8ucws+ob4A51TxofDrWZ+a362FcB9nGdpmbTtHE5ywtiM5btbJHItbwHQhJCtWVDVzJYFN4u9poJyUoVcsKymwlfRRB3JdmZ1O5NooAcAkrwIzUuj5qkrJA8I3HXH0WfhLjsY80fs7lwIvIPvFfdSIg7L6sQglaThRFnooKZZJWDGt5aTIL83CqIZpScW3jk5lggfRJJ6oJgd2xvBf6qx29KRbyh7S1h1ITdWmGpL2OEFt0bqYCmwr/+VARY23ChNnVNIBQPnYOuFDSLrN1FVwax8aU8oCga0tXV33k90rpSJnjkHctbcClK6l16aaJ1aaE87xib2Hpy5wWFCzfY4O/NTayVggjBJaTCEaErTga48MdkZBwG1kff+GlMPH2ltQ5aq+b1IOwsVvc3issMgZrhUGEZBkI0V4MJZotpt8RIsG4tSP1nLcLA65UWJwfDNIDWOZw== marco.cautero@elettra.eu
+	__EOF__
+}

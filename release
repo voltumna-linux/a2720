@@ -1,0 +1,42 @@
+clean() {
+	unset IMAGES
+}
+trap clean EXIT
+
+DEPLOYDIR=tmp/deploy
+
+declare -A IMAGES
+IMAGES[beaglebone]="a2720-sde intranet os.tar wic wic.bmap
+		a2720-sre public os.tar wic wic.bmap
+		a2720-sdk intranet sh"
+
+for MACHINE in ${!IMAGES[@]}
+do
+	echo "${IMAGES[$MACHINE]}" | while read -r -a DATA
+	do
+		for EXT in ${DATA[@]:2}
+		do
+			case $EXT in
+				os.tar|net.tar)
+					FILENAME=$(basename $DEPLOYDIR/images/$MACHINE/${DATA[0]}-$MACHINE-*.$EXT)
+					xz -cT0 $DEPLOYDIR/images/$MACHINE/$FILENAME > $1/${DATA[1]}/$FILENAME.xz
+					;;
+				wic)
+					FILENAME=$(basename -s .$EXT $DEPLOYDIR/images/$MACHINE/${DATA[0]}-$MACHINE-*.$EXT)
+					xz -cT0 $DEPLOYDIR/images/$MACHINE/$FILENAME.$EXT > $1/${DATA[1]}/$FILENAME.img.xz
+					;;
+				wic.bmap)
+					FILENAME=$(basename -s .$EXT $DEPLOYDIR/images/$MACHINE/${DATA[0]}-$MACHINE-*.$EXT)
+					cp $DEPLOYDIR/images/$MACHINE/$FILENAME.$EXT $1/${DATA[1]}/$FILENAME.img.bmap
+					;;
+				wic.vmdk)
+					FILENAME=$(basename -s .$EXT $DEPLOYDIR/images/$MACHINE/${DATA[0]}-$MACHINE-*.$EXT)
+					xz -cT0 $DEPLOYDIR/images/$MACHINE/$FILENAME.$EXT > $1/${DATA[1]}/$FILENAME.img.vmdk.xz
+					;;
+				sh)
+					cp $DEPLOYDIR/sdk/${DATA[0]}-*-$MACHINE-*.$EXT $1/${DATA[1]}/
+					;;
+			esac
+		done
+	done
+done

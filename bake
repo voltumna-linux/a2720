@@ -1,0 +1,7 @@
+MACHINE="beaglebone"
+nice bitbake -k a2720-sre a2720-sde || return
+
+SDKMACHINE="x86_64"
+nice bitbake -k a2720-sdk -c populate_sdk || return
+SDKMACHINE="x86_64-mingw32"
+nice bitbake -k a2720-sdk -c populate_sdk || return

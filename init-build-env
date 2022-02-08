@@ -1,0 +1,20 @@
+BASEDIR="${PWD}/`dirname ${BASH_SOURCE}`"
+
+export BITBAKEDIR="${BASEDIR}/meta-voltumna/bitbake"
+export TEMPLATECONF="${BASEDIR}/conf"
+
+export DISTRO="voltumna"
+export MACHINE
+export SDKMACHINE
+
+BRANCH=$(git branch | sed -n 's/^* \(.*[0-9]\).x/\1/p')
+MAJOR=$(echo $BRANCH | sed -n 's/.*-\([0-9]*\)/\1/p')
+GIT_DESCRIBE="`git -C ${BASEDIR} describe --always --tags --dirty`"
+echo $GIT_DESCRIBE | grep ^$BRANCH >/dev/null
+if [ $? -eq 0 ]; then
+	GIT_DESCRIBE=$(echo $GIT_DESCRIBE | sed -n "s/^$BRANCH\.[0-9]*-\(.*\)/\1/p")
+fi
+export IMAGE_VERSION="-$GIT_DESCRIBE"
+export BB_ENV_EXTRAWHITE="$BB_ENV_EXTRAWHITE IMAGE_VERSION DL_DIR SSTATE_DIR"
+
+source "${BASEDIR}/meta-voltumna/openembedded-core/oe-init-build-env" build$MAJOR "$@"
