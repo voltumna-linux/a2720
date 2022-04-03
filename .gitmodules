@@ -1,8 +1,8 @@
 [submodule "meta-voltumna"]
 	path = meta-voltumna
 	url = https://github.com/voltumna-linux/meta-voltumna.git
-	branch = voltumna-1.x
+	branch = voltumna-1.y
 [submodule "meta-ess"]
 	path = meta-ess
 	url = https://github.com/voltumna-linux/meta-ess.git
-	branch = voltumna-1.x
+	branch = voltumna-1.y
