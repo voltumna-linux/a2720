@@ -19,7 +19,7 @@ case "$BRANCH" in
 		MAJOR=""
 		;;
 	*)
-		MAJOR=$(echo $BRANCH | sed -n 's/[0-9a-zA-Z]*-\([0-9]*\)\.y-z/\1/p')
+		MAJOR=$(echo $BRANCH | sed -n 's/[0-9a-zA-Z]*-\([0-9]*\)\.y.*/\1/p')
 		;;
 esac
 
