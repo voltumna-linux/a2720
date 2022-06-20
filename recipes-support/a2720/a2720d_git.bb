@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e"
 DEPENDS += "a2720-mod"
 RDEPENDS_${PN} += "a2720-utils"
 
-SRCREV = "5bd5a81a84a2bdfdbd513fb31f716055f319ad4a"
+SRCREV = "2b9ff779d16bf36862f47861260f98771031f964"
 SRC_URI = "git://gitlab.elettra.eu/a2720/a2720d.git;protocol=https;branch=development \
 	file://a2720d.service \
 	"
