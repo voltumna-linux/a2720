@@ -20,6 +20,7 @@ do
 				os.tar|net.tar)
 					FILENAME=$(basename $DEPLOYDIR/images/$MACHINE/${DATA[0]}-$MACHINE-*.$EXT)
 					xz -cT0 $DEPLOYDIR/images/$MACHINE/$FILENAME > $1/${DATA[1]}/$FILENAME.xz
+					cp $DEPLOYDIR/images/$MACHINE/$FILENAME $1/${DATA[1]}/
 					;;
 				wic)
 					FILENAME=$(basename -s .$EXT $DEPLOYDIR/images/$MACHINE/${DATA[0]}-$MACHINE-*.$EXT)
