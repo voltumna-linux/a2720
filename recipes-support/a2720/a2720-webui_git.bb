@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=f6412ce0400baf1d8177bd65d0f33550"
 DEPENDS =+ "nodejs-native"
 RDEPENDS_${PN} += "a2720-utils nginx python3-requests"
 
-SRCREV = "88e3c3b4fc3902f3c82967a08b2ee5e28ff24288"
+SRCREV = "bf7f86de76a0cb2c232e8d9647253b27b1458f54"
 SRC_URI = "git://gitlab.elettra.eu/a2720/a2720-webui.git;protocol=https;branch=development \
 	file://a2720.service \
 	file://a2720 \
