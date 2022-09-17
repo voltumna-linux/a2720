@@ -6,9 +6,9 @@ trap clean EXIT
 DEPLOYDIR=tmp/deploy
 
 declare -A IMAGES
-IMAGES[beaglebone]="a2720-sde intranet os.tar wic wic.bmap
-		a2720-sre public os.tar wic wic.bmap
-		a2720-sdk intranet sh"
+IMAGES[beaglebone]="a2720-sde intranet wic wic.bmap
+		    a2720-sre public   wic wic.bmap os.tar
+		    a2720-sdk intranet sh"
 
 for MACHINE in ${!IMAGES[@]}
 do
@@ -20,7 +20,6 @@ do
 				os.tar|net.tar)
 					FILENAME=$(basename $DEPLOYDIR/images/$MACHINE/${DATA[0]}-$MACHINE-*.$EXT)
 					xz -cT0 $DEPLOYDIR/images/$MACHINE/$FILENAME > $1/${DATA[1]}/$FILENAME.xz
-					cp $DEPLOYDIR/images/$MACHINE/$FILENAME $1/${DATA[1]}/
 					;;
 				wic)
 					FILENAME=$(basename -s .$EXT $DEPLOYDIR/images/$MACHINE/${DATA[0]}-$MACHINE-*.$EXT)
