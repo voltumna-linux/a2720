@@ -7,6 +7,9 @@ export DISTRO="voltumna"
 export MACHINE
 export SDKMACHINE
 
+unset BB_ENV_PASSTHROUGH_ADDITIONS
+unset BB_ENV_EXTRAWHITE
+
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 DESCRIBE=$(git -C ${BASEDIR} describe --always --dirty)
 IMAGE_VERSION=$(echo $DESCRIBE | sed -n 's/[0-9a-zA-Z]*-[0-9]*\.[0-9]*\(.*\)/\1/p')
