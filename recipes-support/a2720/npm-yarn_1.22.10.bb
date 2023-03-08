@@ -14,4 +14,4 @@ S = "${WORKDIR}/${NPMDIR}"
 
 inherit npm
 
-BBCLASSEXTEND = "native nativesdk"
+BBCLASSEXTEND = "nativesdk"
