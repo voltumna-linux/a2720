@@ -25,5 +25,5 @@ BBLAYERS ?= " \
   ##OEROOT##/../meta-openembedded/meta-webserver \
   ##OEROOT##/../meta-96boards \
   ##OEROOT##/../../meta-ess \
-  ##OEROOT##/../../../a2720 \
+  ##OEROOT##/../.. \
   "

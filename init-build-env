@@ -13,19 +13,6 @@ unset BB_ENV_EXTRAWHITE
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 DESCRIBE=$(git -C ${BASEDIR} describe --always --dirty)
 IMAGE_VERSION=$(echo $DESCRIBE | sed -n 's/[0-9a-zA-Z]*-[0-9]*\.[0-9]*\(.*\)/\1/p')
-case "$BRANCH" in
-	master-next)
-		MAJOR="-next"
-		IMAGE_VERSION=-$(date +%y%m%d)
-		;;
-	master)
-		MAJOR=""
-		;;
-	*)
-		MAJOR=$(echo $BRANCH | sed -n 's/[0-9a-zA-Z]*-\([0-9]*\)\.y.*/\1/p')
-		;;
-esac
-
 export IMAGE_VERSION
 export BB_ENV_EXTRAWHITE="$BB_ENV_EXTRAWHITE IMAGE_VERSION DL_DIR SSTATE_DIR"
-source "${BASEDIR}/meta-voltumna/openembedded-core/oe-init-build-env" build$MAJOR "$@"
+source "${BASEDIR}/meta-voltumna/openembedded-core/oe-init-build-env" build "$@"
