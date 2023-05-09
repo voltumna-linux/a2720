@@ -8,8 +8,8 @@ DEPLOYDIR=tmp/deploy
 declare -A IMAGES
 IMAGES[beaglebone]="a2720-sde intranet wic wic.bmap
 		    a2720-sre public   wic wic.bmap os.tar
-		    a2720-sdk intranet sh
-		    a2720-sdk intranet zip"
+		    a2720-sdk intranet sh"
+#		    a2720-sdk intranet zip"
 
 for MACHINE in ${!IMAGES[@]}
 do
