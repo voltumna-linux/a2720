@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e"
 DEPENDS += "a2720-mod libwebsockets"
 RDEPENDS_${PN} += "a2720-mod libwebsockets"
 
-SRCREV = "fbfde75d1bc402b02434fbe2c5a90833ad1efcb2"
+SRCREV = "d1d0e493098958cb18eff6645fedefa0e9907996"
 SRC_URI = "git://gitlab.elettra.eu/a2720/a2720-utils.git;protocol=https;branch=development"
 
 S = "${WORKDIR}/git"
