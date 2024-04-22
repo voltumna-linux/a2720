@@ -15,6 +15,8 @@ for MACHINE in ${!IMAGES[@]}
 do
 	echo "${IMAGES[$MACHINE]}" | while read -r -a DATA
 	do
+		FILENAME=$(basename $DEPLOYDIR/images/$MACHINE/${DATA[0]}-$MACHINE-*.manifest)
+		cp $DEPLOYDIR/images/$MACHINE/$FILENAME $1/${DATA[1]}/
 		for EXT in ${DATA[@]:2}
 		do
 			case $EXT in
