@@ -16,23 +16,26 @@ do
 	echo "${IMAGES[$MACHINE]}" | while read -r -a DATA
 	do
 		FILENAME=$(basename $DEPLOYDIR/images/$MACHINE/${DATA[0]}-$MACHINE-*.manifest)
-		cp $DEPLOYDIR/images/$MACHINE/$FILENAME $1/${DATA[1]}/
 		for EXT in ${DATA[@]:2}
 		do
 			case $EXT in
 				os.tar|net.tar)
+					cp $DEPLOYDIR/images/$MACHINE/$FILENAME $1/${DATA[1]}/
 					FILENAME=$(basename $DEPLOYDIR/images/$MACHINE/${DATA[0]}-$MACHINE-*.$EXT)
 					xz -cT0 $DEPLOYDIR/images/$MACHINE/$FILENAME > $1/${DATA[1]}/$FILENAME.xz
 					;;
 				wic)
+					cp $DEPLOYDIR/images/$MACHINE/$FILENAME $1/${DATA[1]}/
 					FILENAME=$(basename -s .$EXT $DEPLOYDIR/images/$MACHINE/${DATA[0]}-$MACHINE-*.$EXT)
 					xz -cT0 $DEPLOYDIR/images/$MACHINE/$FILENAME.$EXT > $1/${DATA[1]}/$FILENAME.img.xz
 					;;
 				wic.bmap)
+					cp $DEPLOYDIR/images/$MACHINE/$FILENAME $1/${DATA[1]}/
 					FILENAME=$(basename -s .$EXT $DEPLOYDIR/images/$MACHINE/${DATA[0]}-$MACHINE-*.$EXT)
 					cp $DEPLOYDIR/images/$MACHINE/$FILENAME.$EXT $1/${DATA[1]}/$FILENAME.img.bmap
 					;;
 				wic.vmdk)
+					cp $DEPLOYDIR/images/$MACHINE/$FILENAME $1/${DATA[1]}/
 					FILENAME=$(basename -s .$EXT $DEPLOYDIR/images/$MACHINE/${DATA[0]}-$MACHINE-*.$EXT)
 					xz -cT0 $DEPLOYDIR/images/$MACHINE/$FILENAME.$EXT > $1/${DATA[1]}/$FILENAME.img.vmdk.xz
 					;;
