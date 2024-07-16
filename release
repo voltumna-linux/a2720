@@ -21,23 +21,23 @@ do
 			case $EXT in
 				os.tar|net.tar)
 					cp $DEPLOYDIR/images/$MACHINE/$FILENAME $1/${DATA[1]}/
-					FILENAME=$(basename $DEPLOYDIR/images/$MACHINE/${DATA[0]}-$MACHINE-*.$EXT)
-					xz -cT0 $DEPLOYDIR/images/$MACHINE/$FILENAME > $1/${DATA[1]}/$FILENAME.xz
+					FILENAME2=$(basename $DEPLOYDIR/images/$MACHINE/${DATA[0]}-$MACHINE-*.$EXT)
+					xz -cT0 $DEPLOYDIR/images/$MACHINE/$FILENAME2 > $1/${DATA[1]}/$FILENAME2.xz
 					;;
 				wic)
 					cp $DEPLOYDIR/images/$MACHINE/$FILENAME $1/${DATA[1]}/
-					FILENAME=$(basename -s .$EXT $DEPLOYDIR/images/$MACHINE/${DATA[0]}-$MACHINE-*.$EXT)
-					xz -cT0 $DEPLOYDIR/images/$MACHINE/$FILENAME.$EXT > $1/${DATA[1]}/$FILENAME.img.xz
+					FILENAME2=$(basename -s .$EXT $DEPLOYDIR/images/$MACHINE/${DATA[0]}-$MACHINE-*.$EXT)
+					xz -cT0 $DEPLOYDIR/images/$MACHINE/$FILENAME2.$EXT > $1/${DATA[1]}/$FILENAME2.img.xz
 					;;
 				wic.bmap)
 					cp $DEPLOYDIR/images/$MACHINE/$FILENAME $1/${DATA[1]}/
-					FILENAME=$(basename -s .$EXT $DEPLOYDIR/images/$MACHINE/${DATA[0]}-$MACHINE-*.$EXT)
-					cp $DEPLOYDIR/images/$MACHINE/$FILENAME.$EXT $1/${DATA[1]}/$FILENAME.img.bmap
+					FILENAME2=$(basename -s .$EXT $DEPLOYDIR/images/$MACHINE/${DATA[0]}-$MACHINE-*.$EXT)
+					cp $DEPLOYDIR/images/$MACHINE/$FILENAME2.$EXT $1/${DATA[1]}/$FILENAME2.img.bmap
 					;;
 				wic.vmdk)
 					cp $DEPLOYDIR/images/$MACHINE/$FILENAME $1/${DATA[1]}/
-					FILENAME=$(basename -s .$EXT $DEPLOYDIR/images/$MACHINE/${DATA[0]}-$MACHINE-*.$EXT)
-					xz -cT0 $DEPLOYDIR/images/$MACHINE/$FILENAME.$EXT > $1/${DATA[1]}/$FILENAME.img.vmdk.xz
+					FILENAME2=$(basename -s .$EXT $DEPLOYDIR/images/$MACHINE/${DATA[0]}-$MACHINE-*.$EXT)
+					xz -cT0 $DEPLOYDIR/images/$MACHINE/$FILENAME2.$EXT > $1/${DATA[1]}/$FILENAME2.img.vmdk.xz
 					;;
 				sh|zip)
 					cp $DEPLOYDIR/sdk/${DATA[0]}-*-$MACHINE-*.$EXT $1/${DATA[1]}/
