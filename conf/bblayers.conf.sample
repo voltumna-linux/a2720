@@ -6,24 +6,25 @@ BBPATH = "${TOPDIR}"
 BBFILES ?= ""
 
 BBLAYERS ?= " \
+  ##OEROOT##/../.. \
+  ##OEROOT##/../../meta-ess \
   ##OEROOT##/../../meta-voltumna \
-  ##OEROOT##/meta \
   ##OEROOT##/../meta-dpdk \
   ##OEROOT##/../meta-tango \
   ##OEROOT##/../meta-mingw \
   ##OEROOT##/../meta-artesyn \
   ##OEROOT##/../meta-altera \
   ##OEROOT##/../meta-intel \
+  ##OEROOT##/../meta-intel-qat \
   ##OEROOT##/../meta-arm/meta-arm \
   ##OEROOT##/../meta-arm/meta-arm-toolchain \
   ##OEROOT##/../meta-ti \
   ##OEROOT##/../meta-clang \
+  ##OEROOT##/../meta-96boards \
   ##OEROOT##/../meta-openembedded/meta-oe \
   ##OEROOT##/../meta-openembedded/meta-filesystems \
   ##OEROOT##/../meta-openembedded/meta-python \
   ##OEROOT##/../meta-openembedded/meta-networking \
   ##OEROOT##/../meta-openembedded/meta-webserver \
-  ##OEROOT##/../meta-96boards \
-  ##OEROOT##/../../meta-ess \
-  ##OEROOT##/../.. \
+  ##OEROOT##/meta \
   "
