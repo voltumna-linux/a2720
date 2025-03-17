@@ -20,7 +20,6 @@ BBLAYERS ?= " \
   ##OEROOT##/../meta-arm/meta-arm-toolchain \
   ##OEROOT##/../meta-ti \
   ##OEROOT##/../meta-clang \
-  ##OEROOT##/../meta-96boards \
   ##OEROOT##/../meta-openembedded/meta-oe \
   ##OEROOT##/../meta-openembedded/meta-filesystems \
   ##OEROOT##/../meta-openembedded/meta-python \
